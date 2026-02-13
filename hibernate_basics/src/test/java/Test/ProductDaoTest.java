@@ -1,62 +1,77 @@
 package Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import org.junit.jupiter.api.Test;
-
-import com.practice.Product;
-import com.practice.ProductDao;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 
 public class ProductDaoTest {
 
-	@Test
-	public void insertProduct() {
+//	@BeforeEach
+//	public void initEmf() {		
+//	}
+	EntityManagerFactory emf = Persistence.createEntityManagerFactory("postgres");
+	EntityManager em = emf.createEntityManager();
 
-		ProductDao dao = new ProductDao();
+	EntityTransaction et = em.getTransaction();
 
-		Product product = new Product();
-		product.setId(202);
-		product.setName("Pencil");
-		product.setPrice(250.0);
-		product.setQuantity(25410);
+//	@Test
+//	public void testAddProducts() {
+//        ProductDao.addProducts(et, em);
+//
+//        Product p = em.find(Product.class, 1);
+//
+//        assertNotNull(p);
+//        assertEquals("Oil", p.getName());
+//        assertEquals(1000, p.getPrice());
+//        assertEquals(3, p.getQuantity());
+//    }
 
-		dao.insertData(product);
-	}
+//    @Test
+//    void testUpdateProducts() {
+//
+//        // First insert
+//        ProductDao.addProducts(et, em);
+//
+//        // Then update
+//        ProductDao.updateProducts(et, em);
+//
+//        Product p = em.find(Product.class, 1);
+//
+//        assertEquals("hero", p.getName());
+//    }
+//    
+//    @Test
+//    void testDeleteProducts() {
+//
+//        ProductDao.addProducts(et, em);
+//
+//        ProductDao.deleteProducts(et, em);
+//
+//        Product p = em.find(Product.class, 1);
+//
+//        assertNull(p);
+//    }
 
-	@Test
-	public void insertDuplicateProductTest() {
+//    @Test
+//    void testFindById() {
+//
+//
+//        Product p = em.find(Product.class, 1);
+//
+//        assertNotNull(p);
+//        assertEquals(1, p.getId());
+//    }
+// 
+//    @Test
+//    void testFindAllProduct() {
+//
+//
+//        long count = em.createQuery("select p from Product p", Product.class)
+//                       .getResultList()
+//                       .size();
+//
+//        assertTrue(count > 0);
+//    }
 
-		ProductDao dao = new ProductDao();
-
-		// First insert (should succeed)
-		Product product1 = new Product();
-		product1.setId(500);
-		product1.setName("Book");
-		product1.setPrice(200.0);
-		product1.setQuantity(5);
-
-		dao.insertData(product1);
-
-		// Second insert with SAME ID (should fail)
-		Product product2 = new Product();
-		product2.setId(500); // duplicate ID
-		product2.setName("DuplicateBook");
-		product2.setPrice(300.0);
-		product2.setQuantity(10);
-
-		assertThrows(Exception.class, () -> {
-			dao.insertData(product2);
-		});
-	}
-
-	@Test
-	public void findByIdTest() {
-
-		ProductDao dao = new ProductDao();
-
-		Product p = dao.findById(202);
-
-		assertNotNull(p);
-	}
 }

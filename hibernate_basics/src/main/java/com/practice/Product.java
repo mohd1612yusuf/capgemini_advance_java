@@ -1,22 +1,33 @@
 package com.practice;
 
-import javax.persistence.Column;
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "product_info")
-public class Product {
+@Table(name = "product")
+public class Product implements Serializable {
+
 	@Id
-	@Column(name = "product_id")
 	private int id;
-	@Column(name = "product_name")
+
 	private String name;
-	@Column(name = "product_quantity")
 	private int quantity;
-	@Column(name = "product_price")
-	private double price;
+	private int price;
+
+	public Product() {
+	}
+
+	public Product(int id, String name, int quantity, int price) {
+		this.id = id;
+		this.name = name;
+		this.quantity = quantity;
+		this.price = price;
+	}
+
+	// Getters & Setters
 
 	public int getId() {
 		return id;
@@ -42,12 +53,16 @@ public class Product {
 		this.quantity = quantity;
 	}
 
-	public double getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", quantity=" + quantity + ", price=" + price + "]";
+	}
 }

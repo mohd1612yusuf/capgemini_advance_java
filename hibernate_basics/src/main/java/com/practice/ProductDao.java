@@ -1,49 +1,62 @@
 package com.practice;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 public class ProductDao {
 
-	private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("postgres");
+	public static void addProducts(EntityTransaction et, EntityManager em) {
 
-	// Insert Product
-	public void insertData(Product p) {
+		Product p = new Product(1, "Oil", 3, 1000);
 
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
+		et.begin();
+		em.persist(p);
+		et.commit();
+	}
 
-		try {
-			et.begin();
-			em.persist(p);
+	public static void updateProducts(EntityTransaction et, EntityManager em) {
+
+		Product product = em.find(Product.class, 1);
+
+		if (product != null) {
+			et.begin(); // BEGIN FIRST
+			product.setName("hero");
+			em.merge(product);
 			et.commit();
-		} catch (Exception e) {
-			if (et.isActive()) {
-				et.rollback();
-			}
-			throw e; // rethrow for test coverage
-		} finally {
-			em.close();
 		}
 	}
 
-	// Find Product by ID
-	public Product findById(int id) {
+	public static void deleteProducts(EntityTransaction et, EntityManager em) {
 
-		EntityManager em = emf.createEntityManager();
-		try {
-			return em.find(Product.class, id);
-		} finally {
-			em.close();
+		Product p = em.find(Product.class, 1);
+
+		if (p != null) {
+			et.begin();
+			em.remove(p);
+			et.commit();
 		}
 	}
 
-	// Close factory (for test cleanup)
-	public static void closeFactory() {
-		if (emf.isOpen()) {
-			emf.close();
+	public static void findById(EntityManager em) {
+
+		Product p = em.find(Product.class, 1);
+
+		if (p != null) {
+			System.out.println(p);
+		} else {
+			System.out.println("Product not found");
 		}
+	}
+
+	public static void findAllProduct(EntityManager em) {
+
+		String jpql = "select p from Product p";
+		Query query = em.createQuery(jpql);
+
+		List<Product> list = query.getResultList();
+		list.forEach(System.out::println);
 	}
 }
