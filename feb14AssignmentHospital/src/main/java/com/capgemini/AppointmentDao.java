@@ -9,7 +9,7 @@ import javax.persistence.Persistence;
 
 public class AppointmentDao {
 
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("postgresql");
+	EntityManagerFactory emf = Persistence.createEntityManagerFactory("postgres");
 	EntityManager em = emf.createEntityManager();
 	EntityTransaction et = em.getTransaction();
 
