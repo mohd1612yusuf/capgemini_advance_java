@@ -9,7 +9,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "collage")
+@Table(name = "college")
 public class College {
 
 	@Id
@@ -18,7 +18,7 @@ public class College {
 	private String location;
 	private String pincode;
 
-	@OneToMany(mappedBy = "collage", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "college", cascade = CascadeType.ALL)
 	private List<Student> student;
 
 	public College(int id, String ename, String location, String pincode) {
@@ -74,7 +74,7 @@ public class College {
 
 	@Override
 	public String toString() {
-		return "Collage [id=" + id + ", ename=" + ename + ", location=" + location + ", pincode=" + pincode
+		return "College [id=" + id + ", ename=" + ename + ", location=" + location + ", pincode=" + pincode
 				+ ", student=" + student + "]";
 	}
 
